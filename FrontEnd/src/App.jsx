@@ -1,13 +1,13 @@
 import { useState } from 'react'
 import './index.css'
-
+import ProductUpload from './components/productupload';
 function App() {
 
   return (
     <>
-    <h1 className='text-8xl'>Hello world</h1>
-    </>
-  )
+    <ProductUpload />
+   </> 
+   )
 }
 
 export default App
