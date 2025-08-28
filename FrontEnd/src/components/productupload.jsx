@@ -35,14 +35,13 @@ export default function ProductUpload() {
     formData.append("image", image);
 
     try {
-       const res = await fetch("http://localhost:5000/api/products/addproduct", { 
+       const res = await fetch("http://localhost:3000/api/products/addproduct", { 
          method: "POST",
          body: formData,
       });
 
       if (res.ok) {
         alert("✅ Product uploaded successfully!");
-        // reset form
         setProductName("");
         setPrice("");
         setCategory("");
