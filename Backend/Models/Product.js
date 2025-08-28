@@ -1,9 +1,9 @@
 const mongoose = require('mongoose');
-// create the product schema name image price catogory audience notes
 
 const productSchema = new mongoose.Schema({
-    name: {type: String, requird: true},
-    image: {type: String, requird: true},
+   
+    name: {type: String, required: true}, 
+    image: {type: String, required: true}, 
     price: {type: Number, required: true},
     category: {type: String, required: true},
     audience: {type: String, required: true},

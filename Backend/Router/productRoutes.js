@@ -1,10 +1,22 @@
-// Router/productRoutes.js
-const express = require("express");
-const { getProducts, createProduct } = require("../Controllers/productController");
-
+const express = require('express');
 const router = express.Router();
+const multer = require('multer');
+const path = require('path');
+const { createProduct, getProducts } = require('../Controllers/productController');
 
-router.get("/", getProducts);
-router.post("/", createProduct);
+// Multer ka setup
+const storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+        cb(null, 'uploads/');
+    },
+    filename: function (req, file, cb) {
+        cb(null, Date.now() + path.extname(file.originalname));
+    }
+});
+const upload = multer({ storage: storage });
+
+// Routes
+router.post('/addproduct', upload.single('image'), createProduct);
+router.get('/', getProducts);
 
 module.exports = router;
