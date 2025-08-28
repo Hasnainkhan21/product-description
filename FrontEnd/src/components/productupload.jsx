@@ -4,6 +4,7 @@ export default function ProductUpload() {
 
   const [productName, setProductName] = useState("");
   const [price, setPrice] = useState("");
+  const [currency, setCurrency] = useState("USD");
   const [category, setCategory] = useState("");
   const [audience, setAudience] = useState("");
   const [notes, setNotes] = useState("");
@@ -27,15 +28,16 @@ export default function ProductUpload() {
     const formData = new FormData();
     formData.append("name", productName);
     formData.append("price", price);
+    formData.append("currency", currency);
     formData.append("category", category);
     formData.append("audience", audience);
     formData.append("notes", notes);
     formData.append("image", image);
 
     try {
-      const res = await fetch("http://localhost:5000/api/products", {
-        method: "POST",
-        body: formData,
+       const res = await fetch("http://localhost:5000/api/products/addproduct", { 
+         method: "POST",
+         body: formData,
       });
 
       if (res.ok) {
@@ -72,14 +74,31 @@ export default function ProductUpload() {
           required
         />
 
-        <input
-          type="number"
-          placeholder="Price *"
-          value={price}
-          onChange={(e) => setPrice(e.target.value)}
-          className="w-full p-2 border rounded-lg focus:ring focus:ring-blue-300"
-          required
-        />
+         <div className="flex space-x-2">
+          <select
+            value={currency}
+            onChange={(e) => setCurrency(e.target.value)}
+            className="border rounded-lg p-2 focus:ring focus:ring-blue-300"
+            required
+          >
+            <option value="USD">$ (USD)</option>
+            <option value="EUR">€ (EUR)</option>
+            <option value="GBP">£ (GBP)</option>
+            <option value="INR">₹ (INR)</option>
+            <option value="PKR">₨ (PKR)</option>
+          </select>
+
+          <input
+            type="number"
+            placeholder="Price *"
+            value={price}
+            onChange={(e) => {const val = e.target.value;
+                            if (val >= 0) setPrice(val);}}
+            
+            className="flex-1 p-2 border rounded-lg focus:ring focus:ring-blue-300"
+            required
+          />
+        </div>
         
         <select
           value={category}
