@@ -42,13 +42,8 @@ app.use('/api/products', productRoutes);
 // Connect to database
 connectDB();
 
-// Test route
-app.get('/', (req, res) => {
-  res.send('Hello Developers!');
-});
-
 // Start server
-const port = process.env.PORT || 3000;
+const port = process.env.PORT;
 app.listen(port, () => {
   console.log(`App is running on port ${port}`);
 });
