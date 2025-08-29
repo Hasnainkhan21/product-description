@@ -20,7 +20,7 @@ export default function ProductUpload() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (!productName || !price || !category || !image) {
+    if (!productName || !price || !category || !image || !audience) {
       alert("Please fill in all required fields!");
       return;
     }
@@ -119,6 +119,7 @@ export default function ProductUpload() {
           value={audience}
           onChange={(e) => setAudience(e.target.value)}
           className="w-full p-2 border rounded-lg focus:ring focus:ring-blue-300"
+          required
         />
 
         <textarea

@@ -36,7 +36,7 @@ export default function ProductList() {
             <p className="text-sm text-gray-500">{p.category}</p>
             {p.image && (
               <img
-                src={`http://localhost:3000/${p.image}`} 
+                src={`http://localhost:3000/uploads/${p.image}`} 
                 alt={p.name}
                 className="w-32 h-32 object-cover mt-2 rounded"
               />
