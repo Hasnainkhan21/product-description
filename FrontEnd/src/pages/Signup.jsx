@@ -6,7 +6,7 @@ import './Signup.css';
 export default function Signup() {
   const nav = useNavigate();
   const [form, setForm] = useState({
-    username: "",   // ✅ changed from name → username
+    username: "",   // ✅ backend expects username
     email: "",
     password: "",
     confirm: "",
@@ -33,13 +33,13 @@ export default function Signup() {
     try {
       setLoading(true);
       const res = await axios.post("http://localhost:3005/api/auth/register", {
-        username: form.username,   // ✅ matches backend
+        username: form.username,
         email: form.email,
         password: form.password,
       });
 
       if (res.data.success) {
-        nav("/login");
+        nav("/login", { state: { signupSuccess: true } }); // ✅ show success on login page
       } else {
         setError(res.data.message || "Signup failed.");
       }

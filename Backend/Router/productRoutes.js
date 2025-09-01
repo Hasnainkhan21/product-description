@@ -19,4 +19,14 @@ const upload = multer({ storage: storage });
 router.post('/addproduct', upload.single('image'), createProduct);
 router.get('/', getProducts);
 
+router.delete("/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+    await Product.findByIdAndDelete(id);
+    res.status(200).json({ message: "Product deleted" });
+  } catch (err) {
+    res.status(500).json({ error: "Failed to delete product" });
+  }
+});
+
 module.exports = router;
