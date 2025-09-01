@@ -30,15 +30,18 @@ export default function Dashboard() {
           >
             Overview
           </Link>
-           <Link
-            to="/products/list">
-          <a className="block px-3 py-2 rounded-md hover:bg-white/20 transition">
+
+          <Link
+            to="/products/list"
+            className="block px-3 py-2 rounded-md hover:bg-white/20 transition"
+          >
             Manage Products
-          </a>
           </Link>
+
           <a className="block px-3 py-2 rounded-md hover:bg-white/20 transition">
             Manage Stores
           </a>
+
           <button
             onClick={logout}
             className="w-full text-left mt-6 px-3 py-2 rounded-md bg-red-500 hover:bg-red-600 transition"
@@ -52,12 +55,12 @@ export default function Dashboard() {
       <main className="flex-1 p-10">
         <header className="flex items-center justify-between mb-8">
           <h1 className="text-3xl font-semibold text-indigo-800">Products</h1>
-          <Link
-            to="/products/upload">
-          <button className="px-5 py-2 bg-gradient-to-r from-indigo-500 to-blue-500 text-white rounded-lg text-sm shadow hover:opacity-90 transition">
-            + Add Product
-          </button>
-           </Link>
+
+          <Link to="/products/upload">
+            <button className="px-5 py-2 bg-gradient-to-r from-indigo-500 to-blue-500 text-white rounded-lg text-sm shadow hover:opacity-90 transition">
+              + Add Product
+            </button>
+          </Link>
         </header>
 
         <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">

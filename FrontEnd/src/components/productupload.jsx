@@ -36,7 +36,7 @@ export default function ProductUpload() {
     formData.append("image", image);
 
     try {
-       const res = await fetch("http://localhost:3000/api/products/addproduct", { 
+       const res = await fetch("http://localhost:3005/api/products/addproduct", { 
          method: "POST",
          body: formData,
       });

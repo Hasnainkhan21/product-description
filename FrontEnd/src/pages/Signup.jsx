@@ -3,11 +3,10 @@ import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import './Signup.css';
 
-
 export default function Signup() {
   const nav = useNavigate();
   const [form, setForm] = useState({
-    name: "",
+    username: "",   // ✅ backend expects username
     email: "",
     password: "",
     confirm: "",
@@ -22,7 +21,7 @@ export default function Signup() {
     e.preventDefault();
     setError("");
 
-    if (!form.name || !form.email || !form.password) {
+    if (!form.username || !form.email || !form.password) {
       setError("Please complete all fields.");
       return;
     }
@@ -33,14 +32,14 @@ export default function Signup() {
 
     try {
       setLoading(true);
-      const res = await axios.post("http://localhost:5000/api/auth/register", {
-        name: form.name,
+      const res = await axios.post("http://localhost:3005/api/auth/register", {
+        username: form.username,
         email: form.email,
         password: form.password,
       });
 
       if (res.data.success) {
-        nav("/login");
+        nav("/login", { state: { signupSuccess: true } }); // ✅ show success on login page
       } else {
         setError(res.data.message || "Signup failed.");
       }
@@ -67,13 +66,13 @@ export default function Signup() {
           {error && <div className="text-red-600 text-sm">{error}</div>}
 
           <div>
-            <label className="text-sm text-gray-600">Full name</label>
+            <label className="text-sm text-gray-600">Username</label>
             <input
-              name="name"
-              value={form.name}
+              name="username"
+              value={form.username}
               onChange={onChange}
               type="text"
-              placeholder="John Doe"
+              placeholder="JohnDoe"
               className="mt-1 w-full px-3 py-2 border rounded-lg text-sm focus:ring-1 focus:ring-blue-500 focus:outline-none"
             />
           </div>

@@ -9,7 +9,7 @@ export default function ProductList() {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const res = await fetch("http://localhost:3000/api/products"); 
+        const res = await fetch("http://localhost:3005/api/products"); 
         const data = await res.json();
         setProducts(data);
       } catch (err) {
@@ -65,7 +65,7 @@ export default function ProductList() {
             <p className="text-sm text-gray-500">{p.category}</p>
             {p.image && (
               <img
-                src={`http://localhost:3000/uploads/${p.image}`} 
+                src={`http://localhost:3005/uploads/${p.image}`} 
                 alt={p.name}
                 className="w-32 h-32 object-cover mt-2 rounded"
               />
