@@ -36,7 +36,7 @@ export default function Login() {
     setLoading(true);
     try {
       // <-- change this URL to match your backend login endpoint if different -->
-      const res = await axios.post("http://localhost:5000/api/auth/login", {
+      const res = await axios.post("http://localhost:3005/api/auth/login", {
         email: form.email.trim(),
         password: form.password,
       });
