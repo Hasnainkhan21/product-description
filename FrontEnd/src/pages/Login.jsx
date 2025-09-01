@@ -36,7 +36,7 @@ export default function Login() {
     setLoading(true);
     try {
       // <-- change this URL to match your backend login endpoint if different -->
-      const res = await axios.post("http://localhost:5000/api/auth/login", {
+      const res = await axios.post("http://localhost:3005/api/auth/login", {
         email: form.email.trim(),
         password: form.password,
       });
@@ -125,23 +125,6 @@ export default function Login() {
             {loading ? "Logging in..." : "Login"}
           </button>
         </form>
-
-        {/* Divider */}
-        <div className="flex items-center my-6">
-          <hr className="flex-grow border-gray-300" />
-          <span className="mx-2 text-gray-500 text-sm">OR</span>
-          <hr className="flex-grow border-gray-300" />
-        </div>
-
-        {/* Social Logins */}
-        <div className="flex gap-3">
-          <button className="w-1/2 py-2 bg-white/80 border border-blue-300 rounded-lg hover:bg-blue-100 transition">
-            Google
-          </button>
-          <button className="w-1/2 py-2 bg-white/80 border border-blue-300 rounded-lg hover:bg-blue-100 transition">
-            Facebook
-          </button>
-        </div>
 
         {/* Signup Link */}
         <p className="text-center text-gray-700 mt-6">

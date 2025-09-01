@@ -7,19 +7,20 @@ const productRoutes = require('./Router/productRoutes');
 const cors = require('cors');
 const multer = require('multer');
 const fs = require('fs');
+const authRoutes = require('./Router/authRouter');
 
-// Middleware
+// ✅ Middleware (must come first)
 app.use(cors());
-app.use(express.json()); // for parsing JSON (non-file routes)
+app.use(express.json());
+app.use(express.urlencoded({ extended: true })); // for form data if needed
 
-// Serve uploaded files
+// Static file serving
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
-// Ensure uploads folder exists
 const uploadDir = path.join(__dirname, 'uploads');
 if (!fs.existsSync(uploadDir)) fs.mkdirSync(uploadDir);
 
-// Multer configuration for file uploads
+// Multer config
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
     cb(null, uploadDir);
@@ -36,7 +37,8 @@ app.use((req, res, next) => {
   next();
 });
 
-// Routes
+// ✅ Routes (after middleware)
+app.use('/api/auth', authRoutes);
 app.use('/api/products', productRoutes);
 
 // Connect to database
