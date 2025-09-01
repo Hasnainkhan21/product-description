@@ -29,3 +29,7 @@ const port = process.env.PORT || 3000;
 app.listen(port, () => {
   console.log(`App is running on port ${port}`);
 });
+const authRoutes = require("./Router/authRoutes");
+
+app.use("/api/products", productRoutes);
+app.use("/api/auth", authRoutes); // 👈 add this line
