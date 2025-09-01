@@ -2,7 +2,9 @@ const express = require('express');
 const router = express.Router();
 const multer = require('multer');
 const path = require('path');
-const { createProduct, getProducts } = require('../Controllers/productController');
+
+const { createProduct, getProducts,generateDescription } = require('../Controllers/productController');
+router.post("/generate-description", generateDescription);
 
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
