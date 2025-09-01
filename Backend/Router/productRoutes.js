@@ -1,6 +1,14 @@
 const express = require('express');
 const router = express.Router();
+<<<<<<< Updated upstream
 const Product = require('../Models/Product');
+=======
+const multer = require('multer');
+const path = require('path');
+
+const { createProduct, getProducts,generateDescription } = require('../Controllers/productController');
+router.post("/generate-description", generateDescription);
+>>>>>>> Stashed changes
 
 // Use multer middleware from server.js
 const upload = require('multer')({

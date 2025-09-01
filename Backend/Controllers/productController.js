@@ -1,6 +1,8 @@
 // Controllers/productController.js
 
 const Product = require('../Models/Product');
+const OpenAI = require("openai");
+const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
 
 // createProduct function
 const createProduct = async (req, res) => {
@@ -40,8 +42,28 @@ const getProducts = async (req, res) => {
     }
 };
 
+// generateDescription function
+const generateDescription = async (req, res) => {
+  try {
+    const { productName, price, category, audience } = req.body;
+
+    const response = await openai.chat.completions.create({
+      model: "gpt-4o-mini",
+      messages: [
+        { role: "system", content: "You are an expert product description writer." },
+        { role: "user", content: `Write a short and long description with SEO tags for product: ${productName}, category: ${category}, price: ${price}, audience: ${audience}` }
+      ]
+    });
+
+    res.json({ result: response.choices[0].message.content });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
+
 // Functions ko export karna
 module.exports = {
     createProduct,
-    getProducts
+    getProducts,
+    generateDescription
 };
