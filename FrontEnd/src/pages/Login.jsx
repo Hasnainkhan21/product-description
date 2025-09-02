@@ -16,8 +16,6 @@ export default function Login() {
   useEffect(() => {
     if (location.state?.signupSuccess) {
       setNotice("Account created successfully. Please log in.");
-      // optional: clear the state so refresh doesn't keep showing it
-      // history.replaceState({}, document.title);
     }
   }, [location.state]);
 
@@ -35,7 +33,6 @@ export default function Login() {
 
     setLoading(true);
     try {
-      // <-- change this URL to match your backend login endpoint if different -->
       const res = await axios.post("http://localhost:3005/api/auth/login", {
         email: form.email.trim(),
         password: form.password,
@@ -43,7 +40,6 @@ export default function Login() {
 
       const data = res.data || {};
 
-      // Common patterns: { token: "..." } or { success: true, token: "..." } or cookie auth
       if (data.token) {
         localStorage.setItem("token", data.token);
         nav("/dashboard", { replace: true });
@@ -51,15 +47,12 @@ export default function Login() {
       }
 
       if (data.success) {
-        // backend might set httpOnly cookie instead of returning token
         nav("/dashboard", { replace: true });
         return;
       }
 
-      // fallback to error message
       setError(data.message || "Login failed. Please check your credentials.");
     } catch (err) {
-      // Prefer backend message if available
       const msg = err.response?.data?.message || err.message || "Error during login.";
       setError(msg);
     } finally {
