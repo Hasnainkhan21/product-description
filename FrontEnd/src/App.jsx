@@ -1,5 +1,9 @@
-import React from "react";
-import "./index.css";
+
+import React, { useState } from 'react'
+import './index.css'
+import ProductUpload from './components/productupload';
+import ProductList from './components/ProductList';
+import GenerateDescription from "./components/GenerateDescription";
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 
 // Components
@@ -28,6 +32,9 @@ export default function App() {
         {/* Product management routes */}
         <Route path="/products/upload" element={<ProductUpload />} />
         <Route path="/products/list" element={<ProductList />} />
+            
+        {/* AI description generator route */}  
+        <Route path="/generate-description" element={<GenerateDescription />} />  
 
         {/* Fallback route → redirect unknown paths to login */}
         <Route path="*" element={<Navigate to="/login" replace />} />
