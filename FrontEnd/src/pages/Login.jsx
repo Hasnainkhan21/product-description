@@ -42,6 +42,7 @@ export default function Login() {
 
       if (data.token) {
         localStorage.setItem("token", data.token);
+        localStorage.setItem("User", JSON.stringify(data.User));
         nav("/dashboard", { replace: true });
         return;
       }
