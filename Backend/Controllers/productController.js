@@ -7,7 +7,7 @@ const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
 // createProduct function
 const createProduct = async (req, res) => {
     try {
-        const { name, price, category, audience, notes } = req.body;
+        const { name, price, category,currency, audience, notes } = req.body;
         const imagePath = req.file ? req.file.path : null;
 
         if (!name || !price || !category || !imagePath) {
@@ -18,6 +18,7 @@ const createProduct = async (req, res) => {
             name,
             price,
             category,
+            currency,
             audience,
             notes,
             image: imagePath,
@@ -48,17 +49,20 @@ const generateDescription = async (req, res) => {
     const { productName, price, category, audience } = req.body;
 
     const response = await openai.chat.completions.create({
-      model: "gpt-4o-mini",
-      messages: [
-        { role: "system", content: "You are an expert product description writer." },
-        { role: "user", content: `Write a short and long description with SEO tags for product: ${productName}, category: ${category}, price: ${price}, audience: ${audience}` }
-      ]
-    });
+  model: "gpt-3.5-turbo",
+  messages: [
+    { role: "system", content: "You are an expert product description writer." },
+    { role: "user", content: `Write a short and long description for ${productName}` }
+  ]
+});
+
 
     res.json({ result: response.choices[0].message.content });
-  } catch (err) {
-    res.status(500).json({ error: err.message });
-  }
+ } catch (err) {
+  console.error("❌ Error in generateDescription:", err); // log full error
+  res.status(500).json({ error: err.message });
+}
+
 };
 
 //delete product through id
@@ -83,4 +87,4 @@ module.exports = {
     getProducts,
     generateDescription,
     deleteProduct
-};
+};  

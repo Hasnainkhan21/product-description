@@ -1,11 +1,9 @@
-
-import React, { useState } from 'react'
-import './index.css'
-import ProductUpload from './components/productupload';
+import React from 'react';
+import './index.css';
+import ProductUpload from './components/ProductUpload';
 import ProductList from './components/ProductList';
 import GenerateDescription from "./components/GenerateDescription";
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
-// Pages
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import Dashboard from "./pages/Dashboard";
