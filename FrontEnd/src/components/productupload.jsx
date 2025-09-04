@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import Sidebar from "./Sidebar";
+import API from "../api"; // <-- make sure this points to your axios instance
 
 export default function ProductUpload() {
   const [productName, setProductName] = useState("");
@@ -10,13 +11,40 @@ export default function ProductUpload() {
   const [notes, setNotes] = useState("");
   const [image, setImage] = useState(null);
   const [preview, setPreview] = useState(null);
+  const [loading, setLoading] = useState(false);
 
+  // Handle image preview
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     setImage(file);
     setPreview(URL.createObjectURL(file));
   };
 
+  // ✅ AI Description Generator
+  const handleGenerate = async () => {
+    if (!productName || !price || !category || !audience) {
+      alert("Fill product name, price, category, and audience first!");
+      return;
+    }
+
+    setLoading(true);
+    try {
+      const res = await API.post("/products/generate-description", {
+        productName,
+        price,
+        category,
+        audience,
+      });
+      setNotes(res.data.result); // Auto-fill notes
+    } catch (err) {
+      console.error(err);
+      alert("Error generating description. Check backend.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // Upload product
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -60,18 +88,14 @@ export default function ProductUpload() {
 
   return (
     <div className="flex min-h-screen bg-gray-100">
-      {/* Sidebar fixed on left */}
       <Sidebar />
 
-      {/* Main content */}
       <div className="flex-1 flex items-center justify-center p-6">
         <div className="max-w-lg w-full bg-gradient-to-br from-indigo-100 via-blue-50 to-purple-100 border border-gray-200 shadow-xl rounded-2xl overflow-hidden">
-          {/* Header */}
           <div className="bg-gradient-to-r from-blue-600 to-indigo-600 py-6 text-center">
             <h2 className="text-2xl font-bold text-white">UPLOAD PRODUCT</h2>
           </div>
 
-          {/* Form */}
           <form onSubmit={handleSubmit} className="p-6 space-y-4">
             <input
               type="text"
@@ -82,32 +106,17 @@ export default function ProductUpload() {
               required
             />
 
-            <div className="bg-white flex space-x-2">
-              <select
-                value={currency}
-                onChange={(e) => setCurrency(e.target.value)}
-                className="border rounded-lg p-2 focus:ring focus:ring-blue-300"
-                required
-              >
-                <option value="USD">$ (USD)</option>
-                <option value="EUR">€ (EUR)</option>
-                <option value="GBP">£ (GBP)</option>
-                <option value="INR">₹ (INR)</option>
-                <option value="PKR">₨ (PKR)</option>
-              </select>
-
-              <input
-                type="number"
-                placeholder="Price *"
-                value={price}
-                onChange={(e) => {
-                  const val = e.target.value;
-                  if (val >= 0) setPrice(val);
-                }}
-                className="bg-white flex-1 p-2 border rounded-lg focus:ring focus:ring-blue-300"
-                required
-              />
-            </div>
+            <input
+              type="number"
+              placeholder="Price *"
+              value={price}
+              onChange={(e) => {
+                const val = e.target.value;
+                if (val >= 0) setPrice(val);
+              }}
+              className="bg-white w-full p-2 border rounded-lg focus:ring focus:ring-blue-300"
+              required
+            />
 
             <select
               value={category}
@@ -125,19 +134,11 @@ export default function ProductUpload() {
 
             <input
               type="text"
-              placeholder="Target Audience"
+              placeholder="Audience"
               value={audience}
               onChange={(e) => setAudience(e.target.value)}
               className="bg-white w-full p-2 border rounded-lg focus:ring focus:ring-blue-300"
               required
-            />
-
-            <textarea
-              placeholder="Notes (special features)"
-              value={notes}
-              onChange={(e) => setNotes(e.target.value)}
-              className="bg-white w-full p-2 border rounded-lg focus:ring focus:ring-blue-300"
-              rows="3"
             />
 
             <input
@@ -148,19 +149,9 @@ export default function ProductUpload() {
               required
             />
 
-            {preview && (
-              <div className="mt-3 text-center">
-                <img
-                  src={preview}
-                  alt="Preview"
-                  className="bg-white w-40 h-40 object-cover mx-auto rounded-lg border"
-                />
-              </div>
-            )}
-
             <button
               type="submit"
-              className="w-full bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 rounded-lg transition"
+              className="w-full bg-blue-500 text-white font-semibold py-2 rounded-lg transition"
             >
               Upload Product
             </button>

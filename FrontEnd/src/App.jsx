@@ -27,7 +27,7 @@ export default function App() {
         <Route path="/products/list" element={<ProductList />} />
             
         {/* AI description generator route */}  
-        <Route path="/generate-description" element={<GenerateDescription />} />  
+        {/* <Route path="/generate-description" element={<GenerateDescription />} />   */}
 
         {/* Fallback route → redirect unknown paths to login */}
         <Route path="*" element={<Navigate to="/login" replace />} />

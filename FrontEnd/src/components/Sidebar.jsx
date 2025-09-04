@@ -22,7 +22,7 @@ export default function Sidebar() {
           to="/dashboard"
           className="block px-3 py-2 rounded-md bg-white/20 hover:bg-white/30 transition"
         >
-          Overview
+        Home
         </Link>
 
         <Link

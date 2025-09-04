@@ -6,30 +6,39 @@ const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
 
 // createProduct function
 const createProduct = async (req, res) => {
-    try {
-        const { name, price, category,currency, audience, notes } = req.body;
-        const imagePath = req.file ? req.file.path : null;
+  try {
+    const { name, price, currency, category, audience } = req.body;
+    const image = req.file ? req.file.filename : null;
 
-        if (!name || !price || !category || !imagePath) {
-            return res.status(400).json({ message: "Name, Price, Category and Image are required" });
-        }
+    const response = await openai.chat.completions.create({
+      model: "gpt-4o-mini",
+      messages: [
+        { role: "system", content: "You are an expert product description writer." },
+        {
+          role: "user",
+          content: `Write a short and long description with SEO tags for product: ${name}, category: ${category}, price: ${price}, audience: ${audience}`,
+        },
+      ],
+    });
 
-        const product = new Product({
-            name,
-            price,
-            category,
-            currency,
-            audience,
-            notes,
-            image: imagePath,
-        });
+    const aiDescription = response.choices[0].message.content;
 
-        await product.save();
-        res.status(201).json(product);
-    } catch (error) {
-        console.error("❌ Error in createProduct:", error.message);
-        res.status(500).json({ message: "Server Error", error: error.message });
-    }
+    const product = new Product({
+      name,
+      price,
+      currency,
+      category,
+      audience,
+      notes: aiDescription, // <-- auto-filled
+      image,
+    });
+
+    await product.save();
+    res.status(201).json({ message: "✅ Product added successfully", product });
+  } catch (err) {
+    console.error("❌ Error in addProduct:", err);
+    res.status(500).json({ error: err.message });
+  }
 };
 
 // getProducts function
@@ -43,27 +52,6 @@ const getProducts = async (req, res) => {
     }
 };
 
-// generateDescription function
-const generateDescription = async (req, res) => {
-  try {
-    const { productName, price, category, audience } = req.body;
-
-    const response = await openai.chat.completions.create({
-  model: "gpt-3.5-turbo",
-  messages: [
-    { role: "system", content: "You are an expert product description writer." },
-    { role: "user", content: `Write a short and long description for ${productName}` }
-  ]
-});
-
-
-    res.json({ result: response.choices[0].message.content });
- } catch (err) {
-  console.error("❌ Error in generateDescription:", err); // log full error
-  res.status(500).json({ error: err.message });
-}
-
-};
 
 //delete product through id
 
@@ -85,6 +73,5 @@ const deleteProduct = async (req, res) => {
 module.exports = {
     createProduct,
     getProducts,
-    generateDescription,
     deleteProduct
 };  
