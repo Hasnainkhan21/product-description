@@ -5,6 +5,7 @@ function GenerateDescription() {
   const [form, setForm] = useState({
     productName: "",
     price: "",
+    currency: "",
     category: "",
     audience: "",
   });
@@ -39,6 +40,15 @@ function GenerateDescription() {
         <input type="text" name="price" placeholder="Price"
           value={form.price} onChange={handleChange} required />
         <br /><br />
+        <select name="currency" value={form.currency} onChange={handleChange} required>
+          <option value="USD">$ (USD)</option>
+          <option value="EUR">€ (EUR)</option>
+          <option value="GBP">£ (GBP)</option>
+          <option value="INR">₹ (INR)</option>
+          <option value="PKR">₨ (PKR)</option>
+
+       </select>
+  <br /><br />
         <input type="text" name="category" placeholder="Category"
           value={form.category} onChange={handleChange} required />
         <br /><br />

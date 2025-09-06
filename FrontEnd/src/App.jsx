@@ -6,10 +6,6 @@ import ProductList from './components/ProductList';
 import GenerateDescription from "./components/GenerateDescription";
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 
-// Components
-import ProductUpload from "./components/productupload";
-import ProductList from "./components/ProductList";
-
 // Pages
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";

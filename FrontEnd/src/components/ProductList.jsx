@@ -28,7 +28,7 @@ export default function ProductList() {
 
     try {
       setDeletingIds((prev) => [...prev, id]);
-      const res = await fetch(`http://localhost:3000/api/products/${id}`, {
+      const res = await fetch(`http://localhost:3005/api/products/${id}`, {
         method: "DELETE",
       });
 
@@ -65,7 +65,7 @@ export default function ProductList() {
             <p className="text-sm text-gray-500">{p.category}</p>
             {p.image && (
               <img
-                src={`http://localhost:3005/uploads/${p.image}`} 
+                src={`http://localhost:3005${p.image}`} 
                 alt={p.name}
                 className="w-32 h-32 object-cover mt-2 rounded"
               />
