@@ -2,7 +2,9 @@ const express = require('express');
 const router = express.Router();
 const multer = require('multer');
 const path = require('path');
-const { createProduct, getProducts } = require('../Controllers/productController');
+
+const { createProduct, getProducts, deleteProduct } = require('../Controllers/productController');
+// router.post("/generate-description", generateDescription);
 
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
@@ -16,5 +18,6 @@ const upload = multer({ storage: storage });
 
 router.post('/addproduct', upload.single('image'), createProduct);
 router.get('/', getProducts);
+router.delete('/delete/:id', deleteProduct);
 
 module.exports = router;
