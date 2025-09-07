@@ -16,8 +16,6 @@ export default function Login() {
   useEffect(() => {
     if (location.state?.signupSuccess) {
       setNotice("Account created successfully. Please log in.");
-      // optional: clear the state so refresh doesn't keep showing it
-      // history.replaceState({}, document.title);
     }
   }, [location.state]);
 
@@ -35,7 +33,6 @@ export default function Login() {
 
     setLoading(true);
     try {
-      // <-- change this URL to match your backend login endpoint if different -->
       const res = await axios.post("http://localhost:3005/api/auth/login", {
         email: form.email.trim(),
         password: form.password,
@@ -43,23 +40,20 @@ export default function Login() {
 
       const data = res.data || {};
 
-      // Common patterns: { token: "..." } or { success: true, token: "..." } or cookie auth
       if (data.token) {
         localStorage.setItem("token", data.token);
+        localStorage.setItem("User", JSON.stringify(data.User));
         nav("/dashboard", { replace: true });
         return;
       }
 
       if (data.success) {
-        // backend might set httpOnly cookie instead of returning token
         nav("/dashboard", { replace: true });
         return;
       }
 
-      // fallback to error message
       setError(data.message || "Login failed. Please check your credentials.");
     } catch (err) {
-      // Prefer backend message if available
       const msg = err.response?.data?.message || err.message || "Error during login.";
       setError(msg);
     } finally {
@@ -125,23 +119,6 @@ export default function Login() {
             {loading ? "Logging in..." : "Login"}
           </button>
         </form>
-
-        {/* Divider */}
-        <div className="flex items-center my-6">
-          <hr className="flex-grow border-gray-300" />
-          <span className="mx-2 text-gray-500 text-sm">OR</span>
-          <hr className="flex-grow border-gray-300" />
-        </div>
-
-        {/* Social Logins */}
-        <div className="flex gap-3">
-          <button className="w-1/2 py-2 bg-white/80 border border-blue-300 rounded-lg hover:bg-blue-100 transition">
-            Google
-          </button>
-          <button className="w-1/2 py-2 bg-white/80 border border-blue-300 rounded-lg hover:bg-blue-100 transition">
-            Facebook
-          </button>
-        </div>
 
         {/* Signup Link */}
         <p className="text-center text-gray-700 mt-6">
