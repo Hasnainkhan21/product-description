@@ -1,1 +1,1 @@
-# ai-post-scheduler
+# ai-product-description
