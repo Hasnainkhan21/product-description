@@ -32,13 +32,6 @@ export default function Sidebar() {
           All Products
         </Link>
 
-        <Link
-          to="/stores"
-          className="block px-3 py-2 rounded-md hover:bg-white/20 transition"
-        >
-          Manage Stores
-        </Link>
-
         <button
           onClick={logout}
           className="w-full text-left mt-6 px-3 py-2 rounded-md bg-red-500 hover:bg-red-600 transition"
